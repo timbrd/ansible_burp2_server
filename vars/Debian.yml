@@ -2,8 +2,8 @@
 # file: vars/Ubuntu.yml
 
 burp_server_packages:
-  - burp-core=2.0.42-1
-  - burp-server=2.0.42-1
+  - burp-core=2.0.44-1
+  - burp-server=2.0.44-1
 
 burp_server_service: "burp-server"
 
