@@ -3,7 +3,7 @@
 
 - name: restart burp server
   service:
-    name: "{{ burp_server_service }}"
+    name: burp-server
     state: restarted
 
 - name: restart cron server
@@ -12,4 +12,5 @@
     state: restarted
     
 - name: Update cache
-  apt: 'update_cache=yes'
+  apt:
+    update_cache: yes

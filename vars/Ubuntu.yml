@@ -2,11 +2,9 @@
 # file: vars/Ubuntu.yml
 
 burp_server_packages:
-  - burp-core=2.0.44-1
-  - burp-server=2.0.44-1
-
-burp_server_service: "burp-server"
+  - libssl-dev
+  - burp-server
 
 # Repository information: http://ziirish.info/repos/README.txt
-burp_apt_sources:
+burp_server_apt_sources:
   - "deb http://ziirish.info/repos/ubuntu/{{ ansible_distribution_release }} zi-latest main"

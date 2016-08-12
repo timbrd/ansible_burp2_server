@@ -2,19 +2,13 @@
 # file: tasks/main.yml
 
 - include: multi_os.yml
-  tags:
-    - burp2_server_config
-    - burp2_server_profiles
-    - burp2_server_cron
-    - burp2_server_autoupgrade
-    - burp2_server_linux
 
 - include: repositories.yml
 
 - name: install role packages
   package: name={{ burp_server_packages| join(',') }} state=present
 
-- name: create burp server folders
+- name: create burp folders
   file:
     path: "{{ item}}"
     owner: root
@@ -22,22 +16,22 @@
     mode: 0755
     state: directory
   with_items:
-    - "{{ burp_server_root }}"
     - "{{ burp_server_directory }}"
+    - "{{ burp_server_data }}"
     - "{{ burp_server_trash }}"
     - "{{ burp_server_logs }}"
-    - /etc/burp/clientconfdir/profiles
-    - /etc/burp/clientconfdir/incexc
+    - "{{ burp_server_clientconfdir }}/profiles"
+    - "{{ burp_server_clientconfdir }}/incexc"
 
 - name: remove example files
   file:
     path: "{{ item }}"
     state: absent
   with_items:
-    - /etc/burp/clientconfdir/testclient
-    - /etc/burp/clientconfdir/incexc/example
+    - "{{ burp_server_clientconfdir }}/testclient"
+    - "{{ burp_server_clientconfdir }}/incexc/example"
 
-- name: setup burp configuration files
+- name: configure burp files
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -48,13 +42,11 @@
     - { src: "burp-server.conf.j2", dest: "/etc/burp/burp-server.conf" }
     - { src: "burp.j2", dest: "/etc/default/burp" }
   notify: restart burp server
-  tags:
-    - burp2_server_config
 
 - name: copy clients configuration files
   copy:
     src: "{{ item }}"
-    dest: /etc/burp/clientconfdir
+    dest: "{{ burp_server_clientconfdir }}"
     owner: root
     group: root
     mode: 0644
@@ -63,23 +55,15 @@
   with_items:
     - incexc
     - profiles
-  tags:
-    - burp2_server_profiles
 
 - name: ensure burp is enabled
   service:
-    name: "{{ burp_server_service }}"
+    name: burp-server
     enabled: yes
 
 - include: cron.yml
-  tags:
-    - burp2_server_cron
 
 - include: autoupgrade.yml
-  tags:
-    - burp2_server_autoupgrade
 
 - include: linux.yml
   when: burp_server_repos
-  tags:
-    - burp2_server_linux

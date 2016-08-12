@@ -12,7 +12,7 @@ max_children = {{ burp_server_max_children }}
 max_status_children = {{ burp_server_max_status_children }}
 
 syslog = {{ burp_server_syslog }}
-autoupgrade_dir = /etc/burp/autoupgrade/server
+autoupgrade_dir = {{ burp_server_autoupgrade_dir }}
 version_warn = {{ burp_server_version_warn }}
 
 hardlinked_archive = {{ burp_server_hardlinked_archive }}
@@ -39,26 +39,26 @@ timer_script = {{ burp_server_timer_script }}
 timer_arg = {{ timer_arg }}
 {% endfor %}
 
-clientconfdir = /etc/burp/clientconfdir
-pidfile = /var/run/burp-server.pid
-directory = {{ burp_server_directory }}
-user = root
-group = root
-umask = 0022
+clientconfdir = {{ burp_server_clientconfdir }}
+pidfile = {{ burp_server_pidfile }}
+directory = {{ burp_server_data }}
+user = {{ burp_server_user }}
+group = {{ burp_server_group }}
+umask = {{ burp_server_umask }}
 
 {% if burp_server_trash %}
 manual_delete = {{ burp_server_trash }}
 {% endif %}
 
-ca_conf = /etc/burp/CA.cnf
-ca_name = burpCA
+ca_conf = {{ burp_server_ca_conf }}
+ca_name = {{ burp_server_ca_name }}
 ca_server_name = {{ ansible_nodename }}
-ca_burp_ca = /usr/sbin/burp_ca
-ssl_cert_ca = /etc/burp/ssl_cert_ca-server.pem
-ssl_cert = /etc/burp/ssl_cert-server.pem
-ssl_key = /etc/burp/ssl_cert-server.key
+ca_burp_ca = {{ burp_server_ca_burp_ca }}
+ssl_cert_ca = {{ burp_server_ssl_cert_ca }}
+ssl_cert = {{ burp_server_ssl_cert }}
+ssl_key = {{ burp_server_ssl_key }}
 ssl_key_password = {{ burp_server_ssl_key_pass }}
-ssl_dhfile = /etc/burp/dhfile.pem
+ssl_dhfile = {{ burp_server_ssl_dhfile }}
 
 {% if burp_server_script_pre != false %}
 server_script_pre = {{ burp_server_script_pre }}
