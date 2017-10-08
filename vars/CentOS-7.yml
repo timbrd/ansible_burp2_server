@@ -1,0 +1,34 @@
+---
+# file: vars/Redhat.yml
+
+build_dependencies:
+  - make
+  - pkgconfig
+  - check
+  - gcc-c++
+  - librsync-devel
+  - zlib-devel
+  - openssl-devel
+  - ncurses-devel
+  - libacl-devel
+  - uthash-devel
+  - yajl-devel
+  - automake
+  - libtool
+  - autoconf # provides autoreconf
+  - libffi-devel # burpui dependency for cffi package
+  - unzip       # required to unzip from master.zip archive for example
+  - openssl     # ensure it is installed, if not burp_ca will not work
+  - ncurses     # from package dependencies
+  - libgcc      # from package dependencies
+
+burp_agent_packages:
+  - python-pip
+  - python-devel
+  - supervisor
+  - redhat-rpm-config # This is required to build ujson, if not install pip got error: gcc: error: /usr/lib/rpm/redhat/redhat-hardened-cc1: No such file or directory
+
+supervisoretc_dir: "/etc/supervisor/conf.d"
+supervisor_ext: "conf"
+supervisor_service: supervisord
+pip_installed_exe_bin_path: '/usr/bin'
